@@ -18,7 +18,7 @@ An Flutter text widget with scrolling text change animation.
 
 ```yaml
 dependencies:
-  flutter_ticker: ^0.0.1
+  flutter_ticker: ^0.0.1+1
 ```
 
 ```dart
