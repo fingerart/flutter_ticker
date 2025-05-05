@@ -10,7 +10,7 @@ An Flutter text widget with scrolling text change animation.
 
 ## Preview
 
-[Online demo](https://fingerart.github.io/flutter_ticker)
+View [online demo](https://fingerart.github.io/flutter_ticker)
 
 ![flutter_ticker](https://raw.githubusercontent.com/fingerart/flutter_ticker/main/arts/demo.gif)
 
@@ -18,7 +18,7 @@ An Flutter text widget with scrolling text change animation.
 
 ```yaml
 dependencies:
-  flutter_ticker: ^0.0.1+1
+  flutter_ticker: ^0.0.1+2
 ```
 
 ```dart
