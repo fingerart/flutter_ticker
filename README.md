@@ -8,6 +8,10 @@
 
 An Flutter text widget with scrolling text change animation.
 
+> [!TIP]
+> If this package is useful to you, please remember to give it a star✨ ([Pub](https://pub.dev/packages/flutter_ticker) | [GitHub](https://github.com/fingerart/flutter_ticker)).
+
+
 ## Preview
 
 View [online demo](https://fingerart.github.io/flutter_ticker)
@@ -25,7 +29,7 @@ dependencies:
 import 'package:flutter_ticker/flutter_ticker.dart';
 
 Ticker(
-  text:'\$10 .24',
+  text:'\$10.24',
 )
 ```
 
