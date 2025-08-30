@@ -8,7 +8,7 @@ import 'package:flutter_ticker/src/draw_metrics.dart';
 import 'package:flutter_ticker/src/levenshtein_distance.dart';
 import 'package:flutter_ticker/src/utils.dart';
 
-/// 每列字符管理器
+/// Column character manager
 class TickerColumnManager {
   TickerColumnManager({
     required String source,
@@ -23,21 +23,21 @@ class TickerColumnManager {
     _listenable.addListener(_onProgressChanged);
   }
 
-  /// 字符指标
+  /// Character metrics
   final CharMetrics _metrics;
 
-  /// 每列集合
+  /// Column collection
   final _columns = <TickerColumn>[];
 
   final ValueListenable<double> _listenable;
 
-  /// 支持的字符集合
+  /// Character set with scroll variation support
   TickerCharacters _characters;
 
-  /// 源字符串
+  /// Source string
   String _source = '';
 
-  /// 设置支持的字符集合
+  /// Set supported character set
   void setCharacterSet(TickerCharacters characters) {
     if (_characters == characters) return;
 
@@ -48,11 +48,11 @@ class TickerColumnManager {
     }
   }
 
-  /// 设置新的文本
+  /// Set new text
   void setText(String text) {
     if (_source == text) return;
 
-    // 清除零宽列
+    // Clear zero-width columns
     final copy = List.of(_columns);
     for (var column in copy) {
       if (column.implicitWidth.nearZero()) {
@@ -60,7 +60,7 @@ class TickerColumnManager {
       }
     }
 
-    // 计算字符编辑步骤
+    // Calculate character edit steps
     final actions = computeColumnActions(_source, text, _characters);
     _source = text;
     int tIndex = 0, cIndex = 0;
@@ -83,7 +83,7 @@ class TickerColumnManager {
     }
   }
 
-  /// 更新文本样式
+  /// Update text style
   void setStyle(TextStyle? value) {
     _metrics.style = value;
     for (var column in _columns) {
@@ -91,7 +91,7 @@ class TickerColumnManager {
     }
   }
 
-  /// 动画进度发生变化
+  /// Animation progress changed
   void _onProgressChanged() {
     final value = _listenable.value;
     for (var column in _columns) {
@@ -99,7 +99,7 @@ class TickerColumnManager {
     }
   }
 
-  /// 获取当前的宽度
+  /// Get current width
   double get currentWidth {
     double width = 0;
     for (var column in _columns) {
@@ -108,7 +108,7 @@ class TickerColumnManager {
     return width;
   }
 
-  /// 测量
+  /// Measure overall dimensions
   Size onMeasure(BoxConstraints constraints) {
     double height = 0, width = 0;
     for (var column in _columns) {
@@ -118,7 +118,7 @@ class TickerColumnManager {
     return Size(width, height);
   }
 
-  /// 绘制
+  /// Draw column contents
   void paint(Canvas canvas, Offset offset) {
     for (var column in _columns) {
       column.paint(canvas, offset);
@@ -126,26 +126,26 @@ class TickerColumnManager {
     }
   }
 
-  /// 销毁
+  /// Destroy
   void dispose() {
     _listenable.removeListener(_onProgressChanged);
     _metrics.dispose();
   }
 }
 
-/// 字符列状态
+/// Character column state
 class TickerColumn {
   TickerColumn(String char, this._metrics, this._characters) {
     this.char = char;
   }
 
-  /// 字符指标
+  /// Character metrics
   final CharMetrics _metrics;
 
-  /// 用于当前列变化的字符列表
+  /// Character list for column changes
   String _charSequence = '';
 
-  /// 当前显示的字符
+  /// Currently displayed character
   String _char = emptyChar;
 
   set char(String value) {
@@ -166,32 +166,32 @@ class TickerColumn {
     _onMeasure();
   }
 
-  /// 字符集
+  /// Character set with scroll variation support
   TickerCharacters _characters;
 
   void setCharacters(TickerCharacters characters) {
     _characters = characters;
   }
 
-  /// 索引
+  /// Indexes
   int _beginIndex = 0, _endIndex = 0, _charIndex = 0;
 
-  /// 根据索引位置变化产生的y轴偏移值
+  /// Y-offset from index position change
   double _yOffset = 0;
 
-  /// 当前动态宽度
+  /// Current dynamic width
   double get width => _width;
   double _width = 0;
 
-  /// 隐式高度
+  /// Implicit height
   double get implicitHeight => _implicitHeight;
   double _implicitHeight = 0;
 
-  /// 隐式宽度（目标宽度）
+  /// Implicit width (target)
   double get implicitWidth => _implicitWidth;
   double _implicitWidth = 0, _lastImplicitWidth = 0;
 
-  /// 动画进度更新
+  /// Handle animation progress update
   void onProgressChanged(double value) {
     _width = lerpDouble(_lastImplicitWidth, _implicitWidth, value)!;
     final indexProgress = lerpDouble(_beginIndex, _endIndex, value)!;
@@ -204,7 +204,7 @@ class TickerColumn {
     }
   }
 
-  /// 测量字符尺寸
+  /// Measure character dimensions
   void _onMeasure() {
     final metrics = _metrics.getCharMetrics(_char);
     _lastImplicitWidth = implicitWidth;
@@ -213,14 +213,14 @@ class TickerColumn {
     // debugPrint('[$_char]${_implicitWidth}x$_implicitHeight');
   }
 
-  /// 绘制内容
+  /// Draw character content
   void paint(Canvas canvas, Offset offset) {
     _drawText(_charIndex - 1, canvas, offset, _yOffset - implicitHeight);
     _drawText(_charIndex, canvas, offset, _yOffset);
     _drawText(_charIndex + 1, canvas, offset, _yOffset + implicitHeight);
   }
 
-  /// 绘制文本
+  /// Draw single character
   void _drawText(int index, Canvas canvas, Offset offset, double dy) {
     if (index < 0 || index >= _charSequence.length) return;
 

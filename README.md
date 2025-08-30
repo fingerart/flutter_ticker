@@ -14,15 +14,18 @@ An Flutter text widget with scrolling text change animation.
 
 ## Preview
 
-View [online demo](https://fingerart.github.io/flutter_ticker)
+View [👆demo👆](https://fingerart.github.io/flutter_ticker) online.
 
-![flutter_ticker](https://raw.githubusercontent.com/fingerart/flutter_ticker/main/arts/demo.gif)
+| Ticker                                                                                                    | Timer & Progress                                                                             |
+|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| ![flutter_ticker](https://raw.githubusercontent.com/fingerart/flutter_ticker/main/arts/demo.gif?raw=true) | ![](https://raw.githubusercontent.com/fingerart/flutter_ticker/main/arts/demo2.gif?raw=true) |
+
 
 ## Usage
 
 ```yaml
 dependencies:
-  flutter_ticker: ^0.0.1+2
+  flutter_ticker: ^0.0.1+3
 ```
 
 ```dart
@@ -43,6 +46,11 @@ Ticker(
 | `duration`   | Optional     | 500Ms                    | Animation duration                        |
 | `curve`      | Optional     | `Curves.ease`            | Animation curves                          |
 | `characters` | Optional     | `0123456789`             | A collection of characters for animations |
+
+## Other flutter widgets or dart library
+
+- [flutter_hypertext](https://pub.dev/packages/flutter_hypertext): A highly extensible rich text widget that can automatically parse styles.
+- [varint](https://pub.dev/packages/varint): A Dart library for encoding and decoding variable-length quantity (VLQ).
 
 ## Other
 

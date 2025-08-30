@@ -18,7 +18,7 @@ class CharMetrics {
     _characters = value;
   }
 
-  /// 文本样式
+  /// Character style
   TextStyle? _style;
 
   set style(TextStyle? value) {
@@ -27,14 +27,14 @@ class CharMetrics {
     _style = value;
   }
 
-  /// 获取字符的指标
+  /// Get character metrics
   Metrics getCharMetrics(String char) {
     return metrics.putIfAbsent(Object.hash(char, _style), () {
       return Metrics(_obtainTextPainter(char));
     });
   }
 
-  /// 获取[src]和[dst]的索引
+  /// get [src] and [dst] indexes
   ({int begin, int end})? getCharIndexes(String src, String dst) {
     if (src.isEmpty || dst.isEmpty) return null;
 
@@ -43,14 +43,14 @@ class CharMetrics {
 
     if (begin < 0 || end < 0) return null;
 
-    // 预热范围之间的[Metrics]
+    // [Metrics] between precache ranges
     for (var i = begin; i <= end; i++) {
       getCharMetrics(_characters[i]);
     }
     return (begin: begin, end: end);
   }
 
-  /// 获取[TextPainter]
+  /// Get [TextPainter]
   TextPainter _obtainTextPainter(String char) {
     TextPainter tp;
     try {
@@ -62,7 +62,7 @@ class CharMetrics {
     return tp;
   }
 
-  /// 回收[TextPainter]
+  /// Recycle [TextPainter]
   void _recycleTextPainter([bool dispose = false]) {
     metrics.removeWhere((key, value) {
       if (dispose) {
@@ -80,7 +80,7 @@ class CharMetrics {
   }
 }
 
-/// 绘制指标
+/// Draw indicators
 class Metrics {
   Metrics(this._tp) {
     // var n = DateTime.now();
@@ -92,22 +92,22 @@ class Metrics {
         _tp.computeDistanceToActualBaseline(TextBaseline.alphabetic);
   }
 
-  /// 文本绘制器
+  /// Text painter
   final TextPainter _tp;
 
-  /// 字符宽度
+  /// Character width
   late final double textWidth;
 
-  /// 字符高度
+  /// Character height
   late final double textHeight;
 
-  /// 基线高度
+  /// Baseline height
   late final double baseLineHeight;
 
-  /// 对应的字符
+  /// Corresponding character
   String get char => _tp.plainText;
 
-  /// 绘制内容
+  /// Paint content
   void paint(Canvas canvas, Offset offset) {
     // canvas.drawRect(
     //   offset & Size(_tp.width, _tp.height),

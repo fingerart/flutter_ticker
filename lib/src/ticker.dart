@@ -7,26 +7,26 @@ import 'character_set.dart';
 import 'ticker_column.dart';
 
 class Ticker extends StatefulWidget {
-  /// 显示文本
+  /// Display text
   final String text;
 
-  /// 文本样式
+  /// Text style
   final TextStyle? style;
 
-  /// 对齐方式
+  /// Text alignment direction
   final TickerAlignment alignment;
 
-  /// 动画时长
+  /// Animation duration
   final Duration duration;
 
-  /// 动画曲线
+  /// Animation curve
   final Curve curve;
 
-  /// 字符集
+  /// Character set with scroll variation support
   final TickerCharacters characters;
 
-  /// 裁剪行为
-  /// 默认[Clip.antiAlias]
+  /// Clip behavior
+  /// Default [Clip.antiAlias]
   final Clip clipBehavior;
 
   const Ticker({
@@ -45,7 +45,7 @@ class Ticker extends StatefulWidget {
 }
 
 class _TickerState extends State<Ticker> with TickerProviderStateMixin {
-  /// 文本样式
+  /// Text effective style
   TextStyle get _effectiveStyle =>
       widget.style ?? DefaultTextStyle.of(context).style;
 
@@ -65,32 +65,33 @@ class _TickerState extends State<Ticker> with TickerProviderStateMixin {
 }
 
 class _Ticker extends LeafRenderObjectWidget {
-  /// 展示的文本内容
+  /// Display text
   final String text;
 
-  /// 字符集
+  /// Character set with scroll variation support
   final TickerCharacters characters;
 
-  /// 文本样式
+  /// Text style
   final TextStyle? style;
 
-  /// 裁剪行为
+  /// Clip behavior
+  /// Default [Clip.antiAlias]
   final Clip clipBehavior;
 
-  /// 动画所需的[TickerProvider]
+  /// [TickerProvider] required for animation
   final TickerProvider vsync;
 
-  /// 动画曲线
+  /// Animation curve
   final Curve curve;
 
-  /// 动画时长
+  /// Animation duration
   final Duration duration;
 
-  /// 对齐方式
+  /// Text alignment direction
   final TickerAlignment alignment;
 
   const _Ticker({
-    super.key,
+    super.key, // ignore: unused_element_parameter
     required this.text,
     required this.characters,
     required this.vsync,
@@ -173,7 +174,7 @@ class _TickerRenderer extends RenderBox {
   Size? _internalSize;
   Rect? _clip;
 
-  /// 绘制文本
+  ///  Display text
   String get text => _text;
   String _text;
 
@@ -185,7 +186,7 @@ class _TickerRenderer extends RenderBox {
     _controller.forward(from: 0);
   }
 
-  /// 字符集
+  /// Character set with scroll variation support
   TickerCharacters get characters => _characters;
   TickerCharacters _characters;
 
@@ -196,7 +197,7 @@ class _TickerRenderer extends RenderBox {
     _columnManager.setCharacterSet(characters);
   }
 
-  /// 文本样式
+  /// Text style
   TextStyle? get style => _style;
   TextStyle? _style;
 
@@ -208,7 +209,7 @@ class _TickerRenderer extends RenderBox {
     _controller.forward(from: 0);
   }
 
-  /// 有效对齐
+  /// Effective alignment direction
   TickerAlignment get effectiveAlignment => _internalAlignment ?? _alignment;
 
   TickerAlignment get alignment => _alignment;
@@ -221,7 +222,7 @@ class _TickerRenderer extends RenderBox {
     markNeedsPaint();
   }
 
-  /// 动画所需的[TickerProvider]
+  /// [TickerProvider] required for animation
   TickerProvider get vsync => _vsync;
   TickerProvider _vsync;
 
@@ -233,7 +234,7 @@ class _TickerRenderer extends RenderBox {
     _controller.resync(vsync);
   }
 
-  /// 动画时长
+  /// Animation duration
   Duration get duration => _controller.duration!;
 
   set duration(Duration value) {
@@ -243,7 +244,7 @@ class _TickerRenderer extends RenderBox {
     _controller.duration = value;
   }
 
-  /// 动画曲线
+  /// Animation curve
   Curve get curve => _animation.curve;
 
   set curve(Curve value) {
@@ -253,7 +254,7 @@ class _TickerRenderer extends RenderBox {
     _animation.curve = value;
   }
 
-  /// 裁剪行为
+  /// Clip behavior
   Clip get clipBehavior => _clipBehavior;
   Clip _clipBehavior;
 
@@ -272,7 +273,7 @@ class _TickerRenderer extends RenderBox {
     size = constraints.constrain(_internalSize!);
     _clip =
         Offset.zero & Size(size.width, min(_internalSize!.height, size.height));
-    // 内部大小超出了外部宽度约束时强制起始对齐
+    // Force start alignment on overflow
     if (size.width < _internalSize!.width) {
       _internalAlignment = TickerAlignment.start;
     } else {
@@ -297,7 +298,7 @@ class _TickerRenderer extends RenderBox {
     }
   }
 
-  /// 绘制真实的内容
+  /// Render actual content
   void _paintContent(PaintingContext context, Offset offset) {
     assert(_internalSize != null);
     final dx = effectiveAlignment.inscribe(
@@ -314,20 +315,20 @@ class _TickerRenderer extends RenderBox {
   }
 }
 
-/// 对齐方向
+/// Text alignment direction
 class TickerAlignment {
   const TickerAlignment(this.value);
 
-  /// 起始对齐
+  /// Start alignment
   static const start = TickerAlignment(-1);
 
-  /// 居中
+  /// Center alignment
   static const center = TickerAlignment(0);
 
-  /// 尾部对齐
+  /// End alignment
   static const end = TickerAlignment(1);
 
-  /// 对齐值
+  /// Alignment value
   final double value;
 
   double inscribe(double src, double dst) {

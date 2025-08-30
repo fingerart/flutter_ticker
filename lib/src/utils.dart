@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 const emptyChar = '\u200B';
 
 extension DoubleExt on double? {
-  /// 两个值是否近似相等
+  /// Check approximate equality
   bool nearEqual(
     double? other, {
     double epsilon = precisionErrorTolerance,
@@ -16,8 +16,8 @@ extension DoubleExt on double? {
         this == other;
   }
 
-  /// 是否近似等于0
-  /// [epsilon] 允许的误差
+  /// Check if approximately zero
+  /// [epsilon] tolerance threshold
   bool nearZero({
     double epsilon = precisionErrorTolerance,
   }) {

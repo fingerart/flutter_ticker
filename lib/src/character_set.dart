@@ -1,5 +1,5 @@
-/// 字符集
+/// CharacterSet type alias
 typedef TickerCharacters = String;
 
-/// 小数字符集
+/// Number character set
 const TickerCharacters numberCharacters = '0123456789';

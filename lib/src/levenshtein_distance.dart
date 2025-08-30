@@ -1,18 +1,13 @@
 import 'dart:math';
 
-/// 编辑的操作
+/// Edit operations
 enum Action {
-  /// 替换
   replace,
-
-  /// 插入
   insert,
-
-  /// 删除
   delete;
 }
 
-/// 计算每列的操作
+/// Computes operations for each column.
 Iterable<Action> computeColumnActions(
   String source,
   String target,
@@ -23,7 +18,7 @@ Iterable<Action> computeColumnActions(
 
   final columnActions = <Action>[];
   while (true) {
-    // 终止条件
+    // Check for terminating conditions
     final reachedEndOfSource = sourceIndex == source.length;
     final reachedEndOfTarget = targetIndex == target.length;
     if (reachedEndOfSource && reachedEndOfTarget) {
@@ -38,11 +33,11 @@ Iterable<Action> computeColumnActions(
       break;
     }
 
-    final sourceChar = supportedCharacters.contains(source[sourceIndex]);
-    final targetChar = supportedCharacters.contains(target[targetIndex]);
+    final containsSrcChar = supportedCharacters.contains(source[sourceIndex]);
+    final containsDstChar = supportedCharacters.contains(target[targetIndex]);
 
-    if (sourceChar && targetChar) {
-      // 对字符串都支持的部分计算编辑操作
+    if (containsSrcChar && containsDstChar) {
+      // Calculate edit operations for concurrently supported characters.
       final sourceEndIndex = _findNextUnsupportedChar(
         source,
         sourceIndex + 1,
@@ -61,16 +56,16 @@ Iterable<Action> computeColumnActions(
       columnActions.addAll(actions);
       sourceIndex = sourceEndIndex;
       targetIndex = targetEndIndex;
-    } else if (sourceChar) {
-      // 目标字符不被支持，将其插入
+    } else if (containsSrcChar) {
+      // The target character is not supported; insert it.
       columnActions.add(Action.insert);
       targetIndex++;
-    } else if (targetChar) {
-      // 原字符不被支持，将其删除
+    } else if (containsDstChar) {
+      // The source character is not supported; delete it.
       columnActions.add(Action.delete);
       sourceIndex++;
     } else {
-      // 两个字符都不被支持做替换操作
+      // Neither character is supported for replacement operation.
       columnActions.add(Action.replace);
       sourceIndex++;
       targetIndex++;
@@ -80,7 +75,7 @@ Iterable<Action> computeColumnActions(
   return columnActions;
 }
 
-/// 查找下一个不被支持的字符索引
+/// Find index of next unsupported char
 int _findNextUnsupportedChar(
   String chars,
   int startIndex,
@@ -94,13 +89,13 @@ int _findNextUnsupportedChar(
   return chars.length;
 }
 
-/// 莱文斯坦距离所做的操作
-/// [source] 源字符串
-/// [target] 目标字符串
+/// Levenshtein distance operations
+/// [source] source string
+/// [target] target string
 ///
-/// 返回每个字符串的编辑操作列表
+/// Returns list of edit operations per string
 Iterable<Action> levenshteinDistanceActions(String source, String target) {
-  // 长度相等时所有字符应用[Actions.replace]
+  // Apply [Actions.replace] to all characters when lengths are equal.
   if (source.length == target.length) {
     final resultLen = max(source.length, target.length);
     return List.filled(resultLen, Action.replace);
@@ -108,16 +103,16 @@ Iterable<Action> levenshteinDistanceActions(String source, String target) {
 
   final (_, matrix) = levenshteinDistance(source, target);
 
-  // 反向追踪矩阵以计算必要的操作
+  // Reverse traversal to generate required operations
   final actions = <Action>[];
   var row = source.length, col = target.length;
   while (row > 0 || col > 0) {
     if (row == 0) {
-      // 源字符串已追踪完，到达顶行，只能向左移动，即插入列
+      // At the top row, can only move left, meaning insert column
       actions.add(Action.insert);
       col--;
     } else if (col == 0) {
-      // 目标字符串已追踪完，达到最左边一列，只能向上移动，即删除列
+      // At the left column, can only move up, meaning delete column
       actions.add(Action.delete);
       row--;
     } else {
@@ -139,18 +134,18 @@ Iterable<Action> levenshteinDistanceActions(String source, String target) {
     }
   }
 
-  // 颠倒操作以获得正确的顺序
+  // Reverse the actions to get the correct ordering
   return actions.reversed;
 }
 
-/// 莱文斯坦距离
+/// Levenshtein distance
 /// https://en.wikipedia.org/wiki/Levenshtein_distance
-/// [source] 源字符串
-/// [target] 目标字符串
+/// [source] Source string
+/// [target] Target string
 ///
-/// 返回
-/// [distance] 编辑距离
-/// [matrix] 包含编辑步骤的矩阵
+/// Returns
+/// [distance] Edit Distance
+/// [matrix] Matrix containing editing steps
 (int distance, List<List<int>> matrix) levenshteinDistance(
   String source,
   String target,
@@ -183,7 +178,7 @@ Iterable<Action> levenshteinDistanceActions(String source, String target) {
   return (distance, List.unmodifiable(matrix));
 }
 
-/// 比较三数的最小值
+/// Comparing the minimum value of the three numbers
 T _min<T extends num>(T a, T b, T c) {
   return a < b ? (a < c ? a : c) : (b < c ? b : c);
 }
