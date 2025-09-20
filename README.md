@@ -1,5 +1,3 @@
-# flutter_ticker
-
 [![pub package](https://img.shields.io/pub/v/flutter_ticker.svg)](https://pub.dartlang.org/packages/flutter_ticker)
 [![GitHub stars](https://img.shields.io/github/stars/fingerart/flutter_ticker)](https://github.com/fingerart/flutter_ticker/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/fingerart/flutter_ticker)](https://github.com/fingerart/flutter_ticker/network)
@@ -47,9 +45,10 @@ Ticker(
 | `curve`      | Optional     | `Curves.ease`            | Animation curves                          |
 | `characters` | Optional     | `0123456789`             | A collection of characters for animations |
 
-## Other flutter widgets or dart library
+## Other Flutter or Dart library
 
 - [flutter_hypertext](https://pub.dev/packages/flutter_hypertext): A highly extensible rich text widget that can automatically parse styles.
+- [jpeg_encode_ffi](https://pub.dev/packages/jpeg_encode_ffi): Encode images into Jpeg format through native FFI binding.
 - [varint](https://pub.dev/packages/varint): A Dart library for encoding and decoding variable-length quantity (VLQ).
 
 ## Other
